@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import {lazy, Suspense, useEffect} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavBar from "./components/Navbar/Navbar";
@@ -11,6 +11,21 @@ const Shop = lazy(() => import("./pages/Shop"));
 const Cart = lazy(() => import("./pages/Cart"));
 const Product = lazy(() => import("./pages/Product"));
 function App() {
+
+  useEffect(() => {
+    console.log('[Katalon] Append Traffic Agent script');
+    const katalonTrafficAgent = document.createElement('script');
+    katalonTrafficAgent.async = true;
+    katalonTrafficAgent.defer = true;
+    katalonTrafficAgent.src = 'http://127.0.0.1:3000/debug/traffic-agent.min.js';
+    katalonTrafficAgent.id = 'katalonTrafficAgent'
+    document.head.appendChild(katalonTrafficAgent);
+
+    document.getElementById('katalonTrafficAgent').addEventListener('load', () => {
+      window.startTrafficAgent("KA-596-17")
+    });
+  },[]);
+
   return (
     <Suspense fallback={<Loader />}>
       <Router>
